@@ -7,3 +7,12 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+body {
+    background-image: url("./mainBg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    
+}

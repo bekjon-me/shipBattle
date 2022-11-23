@@ -1,7 +1,9 @@
 import React, { FormEvent } from "react";
 import { ShipContext } from "../context/shipBattleContext";
+import { range } from "../consts/range";
 import Field from "./Field";
-import { SubmitIcon, EditIcon } from "../assets/icons";
+import PlayerName from "./PlayerName";
+import SetShipActions from "./SetShipActions";
 
 interface IProps {
   bgColor: string;
@@ -11,27 +13,21 @@ interface IProps {
 interface IState {
   fields: number[];
   isEditingName: boolean;
-  editingName: string;
-}
-
-function range(start: number, end: number): number[] {
-  if (start === end) return [start];
-  return [start, ...range(start + 1, end)];
+  settedShips: {};
 }
 
 export default class PlayerBoard extends React.Component<IProps, IState> {
-  wrapperRef: React.RefObject<HTMLFormElement>;
   context!: React.ContextType<typeof ShipContext>;
   constructor(props: any) {
     super(props);
     this.state = {
       fields: range(0, 24),
       isEditingName: false,
-      editingName: "",
+      settedShips: {
+        player1: [],
+        player2: [],
+      },
     };
-
-    this.wrapperRef = React.createRef();
-    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   setShip = (field: number): void => {
@@ -79,31 +75,7 @@ export default class PlayerBoard extends React.Component<IProps, IState> {
     }
   };
 
-  confirmShipsPlace = (): void => {
-    if (this.state.fields.filter((x) => x >= 100).length === 8) {
-      if (this.context.choosingPlayer === this.context.player2) {
-        this.context.setChoosingPlayer("bothChosen");
-        console.log("player 2: " + this.state.fields);
-      } else {
-        this.context.setChoosingPlayer("Player 2");
-        console.log("player 1: " + this.state.fields);
-      }
-    } else {
-      alert("You need to set all ships!");
-    }
-  };
-
-  setRandomShips = (): void => {
-    let fields: number[] = range(0, 24);
-    let randomFields: number[] = [];
-    for (let index = 0; index < 8; index++) {
-      let randomField = Math.floor(Math.random() * 25);
-      if (randomFields.includes(randomField)) {
-        index--;
-      } else {
-        randomFields.push(randomField);
-      }
-    }
+  randomizeShips = (fields: number[], randomFields: number[]): void => {
     this.setState({
       fields: fields.map((field, index) => {
         if (randomFields.includes(index)) {
@@ -115,83 +87,10 @@ export default class PlayerBoard extends React.Component<IProps, IState> {
     });
   };
 
-  handleChangeName = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({
-      editingName: e.target.value,
-    });
-  };
-
-  handleEditChangeStatus = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    this.setState({
-      isEditingName: !this.state.isEditingName,
-    });
-    document.addEventListener("mousedown", this.handleClickOutside);
-  };
-
-  handleEditName = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    if (this.state.editingName.trim() !== "") {
-      let editingName = this.state.editingName.trim();
-      if (this.props.whichPlayer === "Player 1") {
-        this.context.setPlayer1(editingName);
-        this.setState({ editingName: "" });
-      } else if (this.props.whichPlayer === "Player 2") {
-        this.context.setPlayer2(editingName);
-        this.setState({ editingName: "" });
-      }
-      this.setState({
-        isEditingName: false,
-      });
-      document.removeEventListener("mousedown", this.handleClickOutside);
-    }
-  };
-
-  handleClickOutside(event: MouseEvent | any): void {
-    if (this.wrapperRef && !this.wrapperRef.current?.contains(event.target)) {
-      this.setState({
-        isEditingName: false,
-      });
-    }
-  }
-
   render(): React.ReactNode {
     return (
       <div className="flex flex-col items-center relative">
-        {this.state.isEditingName ? (
-          <form
-            ref={this.wrapperRef}
-            className="flex items-center gap-4 mb-2"
-            onSubmit={this.handleEditName}
-          >
-            <input
-              type="text"
-              value={this.state.editingName}
-              onChange={this.handleChangeName}
-              required
-              className="bg-gray-200 rounded-md px-2 py-1 w-32 focus:outline-none"
-              autoFocus
-            />
-            <button type="submit">
-              <img src={SubmitIcon} alt="submitBtn" className="w-7" />
-            </button>
-          </form>
-        ) : (
-          <form
-            className="flex items-center gap-4 mb-2 cursor-pointer"
-            onSubmit={this.handleEditChangeStatus}
-          >
-            <h2 className="text-2xl">
-              {this.props.whichPlayer === "Player 1"
-                ? this.context.player1
-                : this.context.player2}
-            </h2>
-            <button type="submit">
-              <img src={EditIcon} alt="editIcon" className="w-8" />
-            </button>
-          </form>
-        )}
-
+        <PlayerName player={this.props.whichPlayer} />
         <div
           className={
             this.context.choosingPlayer === this.props.whichPlayer ||
@@ -213,24 +112,13 @@ export default class PlayerBoard extends React.Component<IProps, IState> {
             />
           ))}
         </div>
-        {this.context.choosingPlayer === "Player 1" ||
-        this.context.choosingPlayer === "Player 2" ? (
-          <div className="flex gap-x-4 items-center absolute -bottom-14">
-            <button
-              className="border border-black py-1 px-4 rounded mt-4 bg-[#1A94FF] text-white"
-              onClick={this.confirmShipsPlace}
-            >
-              Confirm
-            </button>
-            <button
-              className="border border-black py-1 px-4 rounded mt-4 bg-[#0daf0d] text-white"
-              onClick={this.setRandomShips}
-            >
-              Random
-            </button>
-          </div>
+        {this.context.choosingPlayer === "bothChosen" ? (
+          <button>Yuriye</button>
         ) : (
-          ""
+          <SetShipActions
+            fields={this.state.fields}
+            randomizeFields={this.randomizeShips}
+          />
         )}
       </div>
     );
