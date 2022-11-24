@@ -1,7 +1,6 @@
 import React from "react";
 import { SubmitIcon, EditIcon } from "../assets/icons";
 import { ShipContext } from "../context/shipBattleContext";
-import { range } from "../consts/range";
 
 interface IProps {
   player: string;
@@ -67,9 +66,20 @@ export default class PlayerName extends React.Component<IProps, IState> {
   }
 
   render(): React.ReactNode {
-    return (
+    return this.props.player === this.context.choosingPlayer ||
+      this.context.choosingPlayer === "bothChosen" ? (
       <>
-        {this.state.isEditingName ? (
+        {this.context.choosingPlayer === "bothChosen" ? (
+          this.context.attackingPlayer === this.props.player ? (
+            <h2 className="text-2xl">
+              {this.props.player === "Player 1"
+                ? this.context.player1
+                : this.context.player2}
+            </h2>
+          ) : (
+            ""
+          )
+        ) : this.state.isEditingName ? (
           <form
             ref={this.wrapperRef}
             className="flex items-center gap-4 mb-2"
@@ -103,6 +113,8 @@ export default class PlayerName extends React.Component<IProps, IState> {
           </form>
         )}
       </>
+    ) : (
+      ""
     );
   }
 }

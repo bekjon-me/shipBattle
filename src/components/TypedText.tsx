@@ -2,12 +2,11 @@ import React from "react";
 import Typed from "react-typed";
 
 const textLines = [
-  `Hey! Check out the nice library
-  <a href="https://github.com/mattboldt/typed.js">Typed.js!</a>`,
-  `It's animating <b>any text</b> you pass to it. <b>Just one line</b> of code!`,
-  `In this example I've used React.js wrapper for Typed.js: <b>react-typed</b>`,
-  `Such a cool effect, isn't it?`,
-  `Follow <b>@room_js</b> to get more web development tricks!`,
+  `Hey there!`,
+  `I'm a full-stack developer.`,
+  `I'm currently working on a project called "Ship Battle".`,
+  `It's a game where you can play against your friends.`,
+  `You can check it out it's source code here: <a target="_blank" id="github_link" href="https://github.com/bekjon-me/shipBattle">Github link</a>`,
 ];
 
 function TypedText() {

@@ -13,20 +13,15 @@ interface IProps {
 interface IState {
   fields: number[];
   isEditingName: boolean;
-  settedShips: {};
 }
 
-export default class PlayerBoard extends React.Component<IProps, IState> {
+export default class ArrangementBoard extends React.Component<IProps, IState> {
   context!: React.ContextType<typeof ShipContext>;
   constructor(props: any) {
     super(props);
     this.state = {
       fields: range(0, 24),
       isEditingName: false,
-      settedShips: {
-        player1: [],
-        player2: [],
-      },
     };
   }
 
@@ -112,17 +107,17 @@ export default class PlayerBoard extends React.Component<IProps, IState> {
             />
           ))}
         </div>
-        {this.context.choosingPlayer === "bothChosen" ? (
-          <button>Yuriye</button>
-        ) : (
+
+        {this.context.choosingPlayer !== "bothChosen" &&
+        this.props.whichPlayer === this.context.choosingPlayer ? (
           <SetShipActions
             fields={this.state.fields}
             randomizeFields={this.randomizeShips}
           />
-        )}
+        ) : null}
       </div>
     );
   }
 }
 
-PlayerBoard.contextType = ShipContext;
+ArrangementBoard.contextType = ShipContext;

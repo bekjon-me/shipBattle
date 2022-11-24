@@ -12,21 +12,17 @@ export default class SetShipActions extends Component<IProps> {
 
   confirmShipsPlace = (): void => {
     if (this.props.fields.filter((x) => x >= 100).length === 8) {
-      console.log(this.context.choosingPlayer, this.context.player2);
-
       if (this.context.choosingPlayer === "Player 2") {
-        this.context.setChoosingPlayer("bothChosen");
-        this.setState({
-          settedShips: {
-            player2: [...this.props.fields],
-          },
+        this.context.setSettedShips({
+          player1: this.context.settedShips.player1,
+          player2: this.props.fields,
         });
+        this.context.setChoosingPlayer("bothChosen");
       } else {
         this.context.setChoosingPlayer("Player 2");
-        this.setState({
-          settedShips: {
-            player1: [...this.props.fields],
-          },
+        this.context.setSettedShips({
+          player1: this.props.fields,
+          player2: this.context.settedShips.player2,
         });
       }
     } else {
