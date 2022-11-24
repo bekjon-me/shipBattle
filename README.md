@@ -1,3 +1,34 @@
+# ShipBattle Game
+
+> The game created by Bekjon Ishpulatov
+
+## Built With
+
+- ReactJS(only class components)
+
+## Author
+
+- GitHub: [@bekjon-me](https://github.com/bekjon-me)
+- LinkedIn: [LinkedIn](https://linkedin.com/in/bekjonishpulatov)
+- Hackerrank profile : [Hackerrank](https://www.hackerrank.com/bekjonishpulato1)
+- Leetcode profile: [Leetcode](https://leetcode.com/bekjonishpulatov8/)
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+Feel free to check the [issues page](../../issues/).
+
+## Show your support
+
+Give a ⭐️ if you like this project!
+
+## Acknowledgments
+
+- Hat tip to anyone whose code was used
+- Inspiration
+- etc
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
