@@ -32,7 +32,7 @@ export default class GameBoard extends Component<IProps, IState> {
       if (this.state.fields.filter((x) => x < 200).length === 0) {
         this.setState({ isMissed: true });
       }
-      if (this.state.fields.filter((x) => x >= 200).length === 8) {
+      if (this.state.fields.filter((x) => x >= 200 && x < 300).length === 8) {
         if (this.props.whichPlayer === "Player 1") {
           this.context.setWinner(this.context.player2);
         } else {

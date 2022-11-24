@@ -6,6 +6,10 @@
 
 - ReactJS(only class components)
 
+## Live Demo
+
+- [Vercel link](https://ship-battle5x5.vercel.app/)
+
 ## Author
 
 - GitHub: [@bekjon-me](https://github.com/bekjon-me)
